@@ -37,9 +37,6 @@ resource flexFuncApp 'Microsoft.Web/sites@2023-12-01' = {
   location: location
   tags: tags
   kind: 'functionapp,linux'
-  identity: {
-    type: 'SystemAssigned'
-  }
   properties: {
     serverFarmId: flexFuncPlan.id
     siteConfig: {
