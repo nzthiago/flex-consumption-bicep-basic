@@ -25,7 +25,7 @@ param networkAcls object = {
 param publicNetworkAccess string = 'Enabled'
 param sku object = { name: 'Standard_LRS' }
 
-resource storage 'Microsoft.Storage/storageAccounts@2022-05-01' = {
+resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   name: name
   location: location
   tags: tags
@@ -51,7 +51,7 @@ resource storage 'Microsoft.Storage/storageAccounts@2022-05-01' = {
     resource container 'containers' = [for container in containers: {
       name: container.name
       properties: {
-        publicAccess: contains(container, 'publicAccess') ? container.publicAccess : 'None'
+        publicAccess: container.?publicAccess ?? 'None'
       }
     }]
   }
