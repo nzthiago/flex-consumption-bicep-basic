@@ -169,7 +169,7 @@ resource flexFuncApp 'Microsoft.Web/sites@2024-04-01' = {
     }
   }
   properties: {
-    serverFarmId: flexFuncPlan.id
+    serverFarmId: flexFuncPlan.id    
     functionAppConfig: {
       deployment: {
         storage: {
@@ -195,8 +195,9 @@ resource flexFuncApp 'Microsoft.Web/sites@2024-04-01' = {
     name: 'appsettings'
     properties: {
         AzureWebJobsStorage__accountName: storage.name
+        AzureWebJobsStorage__clientId : userAssignedIdentity.properties.clientId
         AzureWebJobsStorage__credential : 'managedidentity'
-        APPLICATIONINSIGHTS_CONNECTION_STRING: 'ClientId=${userAssignedIdentity.id};Authorization=AAD'
+        APPLICATIONINSIGHTS_CONNECTION_STRING: 'ClientId=${userAssignedIdentity.properties.clientId};Authorization=AAD;InstrumentationKey=${applicationInsights.properties.InstrumentationKey}'
       }
   }
 }
