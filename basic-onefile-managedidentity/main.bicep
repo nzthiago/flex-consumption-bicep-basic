@@ -29,7 +29,7 @@ var tags = {
 
 resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   name: 'log-${resourceToken}'
-  location: location
+  location: 'eastus'
   tags: tags
   properties: any({
     retentionInDays: 30
@@ -44,7 +44,7 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
 
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: 'appi-${resourceToken}'
-  location: location
+  location: 'eastus'
   tags: tags
   kind: 'web'
   properties: {
@@ -197,7 +197,8 @@ resource flexFuncApp 'Microsoft.Web/sites@2024-04-01' = {
         AzureWebJobsStorage__accountName: storage.name
         AzureWebJobsStorage__clientId : userAssignedIdentity.properties.clientId
         AzureWebJobsStorage__credential : 'managedidentity'
-        APPLICATIONINSIGHTS_CONNECTION_STRING: 'ClientId=${userAssignedIdentity.properties.clientId};Authorization=AAD;InstrumentationKey=${applicationInsights.properties.InstrumentationKey}'
+        APPLICATIONINSIGHTS_CONNECTION_STRING: applicationInsights.properties.ConnectionString
+        APPLICATIONINSIGHTS_AUTHENTICATION_STRING: 'ClientId=${userAssignedIdentity.properties.clientId};Authorization=AAD;'
       }
   }
 }
